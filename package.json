@@ -9,16 +9,30 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "dark-sky-api": "^0.6.32",
+    "moment": "^2.24.0",
+    "node-ical": "^0.9.2",
+    "roboto-fontface": "*",
+    "vue": "^2.6.10",
+    "vue-resource": "^1.5.1",
+    "vue-skycon": "^1.0.4",
+    "vuetify": "^2.0.4"
   },
   "devDependencies": {
+    "@mdi/font": "^3.8.95",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.10.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "express": "^4.17.1",
+    "material-design-icons-iconfont": "^5.0.1",
+    "sass": "^1.17.4",
+    "sass-loader": "^7.1.0",
+    "vue-cli-plugin-vuetify": "^0.6.1",
+    "vue-template-compiler": "^2.6.10",
+    "vuetify-loader": "^1.2.2"
   },
   "eslintConfig": {
     "root": true,
