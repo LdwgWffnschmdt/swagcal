@@ -1,10 +1,19 @@
 <template>
   <v-app dark>
-    <v-content dark>
+    <v-content>
       <v-container>
         <v-layout  column fill-height>
           <v-flex>
-            <skycon condition="fog" width="40" height="40"></skycon>
+            <v-img
+              :src="require('./assets/logo.svg')"
+              contain
+              position="left center"
+              min-width="140"
+              max-height="128"
+              style="margin-left: -16px;"
+            ></v-img>
+          </v-flex>
+          <v-flex>
             <v-calendar
               color="primary"
               :events="events"
@@ -93,28 +102,10 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-speed-dial
-      v-model="fab"
-      bottom right
-      direction="top"
-      transition="slide-y-reverse-transition"
-      style="position: fixed; bottom: 16px; right: 16px;"
-    >
-      <template v-slot:activator>
-        <v-btn
-          v-model="fab"
-          color="blue darken-2"
-          dark
-          fab
-        >
-          <v-icon v-if="fab">close</v-icon>
-          <v-icon v-else>settings</v-icon>
-        </v-btn>
-      </template>
+    
+    <v-layout column style="position: fixed; right: 16px; bottom: 16px;">
       <v-btn
         fab
-        dark
-        small
         color="green"
         @click="scrollToCurrentWeek()"
       >
@@ -122,14 +113,12 @@
       </v-btn>
       <v-btn
         fab
-        dark
-        small
         color="blue"
         @click="updateEvents()"
       >
         <v-icon>refresh</v-icon>
       </v-btn>
-    </v-speed-dial>
+    </v-layout>
   </v-app>
 </template>
 
