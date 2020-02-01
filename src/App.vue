@@ -65,18 +65,29 @@
                   <div v-if="event.weather" class="weather">
                     <skycon :condition="event.weather.icon" width="24" height="24" color="white"></skycon>
                     <span v-if="event.weather.temperature" class="weatherCurrent">
-                      {{Math.round(event.weather.temperature)}}&nbsp;<span class="weahterUnit">°C</span>
+                      {{Math.round(event.weather.temperature)}}&nbsp;<span class="weatherUnit">°C</span>
                       <div class="weatherForecast">
-                        {{Math.round(event.weather.temperatureHigh)}}&nbsp;<span class="weahterUnit">°C / </span>{{Math.round(event.weather.temperatureLow)}}&nbsp;<span class="weahterUnit">°C</span>
+                        {{Math.round(event.weather.temperatureHigh)}}&nbsp;<span class="weatherUnit">°C / </span>{{Math.round(event.weather.temperatureLow)}}&nbsp;<span class="weatherUnit">°C</span>
                       </div>
                     </span>
                     <span v-else class="weather weatherDaily">
-                      {{Math.round(event.weather.temperatureHigh)}}&nbsp;<span class="weahterUnit">°C</span>
+                      {{Math.round(event.weather.temperatureHigh)}}&nbsp;<span class="weatherUnit">°C</span>
                     </span>
                   </div>
                   <div v-else-if="day.index" class="eventAllDay">
                     <div v-html="event.name" v-if="day.index == 0 || (day.day == event.startMoment.date() && day.month == event.startMoment.month()+1 && day.year == event.startMoment.year())"></div>
                   </div>
+                  <!-- <v-alert
+                    border="left" v-else class="eventTimed"
+                    colored-border
+                    color="deep-purple accent-4"
+                    elevation="2"
+                  >
+                    <div class="eventTime">{{ event.startMoment.format("HH:mm") }}</div>
+                    <div class="eventTitle" v-html="event.name"></div>
+                    <div class="eventLocation" v-if="event.raw && event.raw.location">{{ event.raw.location }}</div>
+                    <!-- <v-sheet class="eventTime darken-2" :color="event.color">{{ event.startMoment.format("HH:mm") }}</v-sheet> --
+                  </v-alert> -->
                   <div v-else class="eventTimed">
                     <div class="eventTime">{{ event.startMoment.format("HH:mm") }}</div>
                     <div class="eventTitle" v-html="event.name"></div>
@@ -130,7 +141,7 @@ import moment from 'moment';
 import ical from 'node-ical';
 import DarkSkyApi from 'dark-sky-api';
 DarkSkyApi.apiKey = config.darkSkyApiKey;
-DarkSkyApi.proxy = `http://localhost:8080/forecast/${DarkSkyApi.apiKey}`; 
+// DarkSkyApi.proxy = `http://localhost:8080/forecast/${DarkSkyApi.apiKey}`; 
 DarkSkyApi.units = 'si'; // default 'us'
 DarkSkyApi.language = 'de'; // default 'en'
 
@@ -177,7 +188,14 @@ export default {
     {
       if (numTries === undefined) numTries = 0;
 
-      ical.fromURL(url, {}, (err, data) => {
+      ical.fromURL(url, {
+        // withCredentials:false,
+        // headers:
+        // {
+        //   'Origin': 'http://de-kalender.de', 
+        //   'Referer': 'http://de-kalender.de'
+        // }
+      }, (err, data) => {
         if (err != undefined && numTries < 5) {
           return this.getEventsFromIcal(url, color, name, func, numTries + 1);
         }
@@ -338,9 +356,9 @@ export default {
             calendar.events = [
               {
                 name: `<span class="weather weatherCurrent">
-                        ${Math.round(result.currently.temperature)}&nbsp;<span class="weahterUnit">°C</span>
+                        ${Math.round(result.currently.temperature)}&nbsp;<span class="weatherUnit">°C</span>
                         <div class="weatherForecast">
-                          ${Math.round(result.daily.data[0].temperatureHigh)}&nbsp;<span class="weahterUnit">°C / </span>${Math.round(result.daily.data[0].temperatureLow)}&nbsp;<span class="weahterUnit">°C</span>
+                          ${Math.round(result.daily.data[0].temperatureHigh)}&nbsp;<span class="weatherUnit">°C / </span>${Math.round(result.daily.data[0].temperatureLow)}&nbsp;<span class="weatherUnit">°C</span>
                         </div>
                       </span>`,
                 weather: result.currently,
@@ -357,7 +375,7 @@ export default {
 
             // result.hourly.data.forEach(hour => {
             //   calendar.events.push({
-            //     name: `<span class="weather weatherHourly">${this.weatherIconToUnicode(hour.icon)} ${Math.round(hour.temperature)}&nbsp;<span class="weahterUnit">°C</span></span>`,
+            //     name: `<span class="weather weatherHourly">${this.weatherIconToUnicode(hour.icon)} ${Math.round(hour.temperature)}&nbsp;<span class="weatherUnit">°C</span></span>`,
             //     details: hour.summary,
             //     color: calendar.color,
             //     start: moment.unix(hour.time).format('YYYY-MM-DD HH:mm'),
@@ -367,7 +385,7 @@ export default {
 
             result.daily.data.forEach(day => {
               calendar.events.push({
-                name: `<span class="weather weatherDaily">${this.weatherIconToUnicode(day.icon)} ${Math.round(day.temperatureHigh)}&nbsp;<span class="weahterUnit">°C</span></span>`,
+                name: `<span class="weather weatherDaily">${this.weatherIconToUnicode(day.icon)} ${Math.round(day.temperatureHigh)}&nbsp;<span class="weatherUnit">°C</span></span>`,
                 weather: day,
                 details: day.summary,
                 color: calendar.color,
@@ -537,7 +555,7 @@ export default {
   opacity: 0.7;
 }
 
-.weahterUnit {
+.weatherUnit {
     opacity: .4;
     font-size: smaller;
 }

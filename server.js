@@ -2,10 +2,14 @@
 const port = process.env.PORT || 8080;
 
 // wire up the module
-import express from 'express'; 
+var express = require('express');
+var cors = require('cors');
 
 // create server instance
 const app = express();
+
+app.use(cors());
+
 // bind the request to an absolute path or relative to the CWD
 app.use(express.static('dist'));
 // start the server
